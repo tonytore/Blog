@@ -10,27 +10,27 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {});
 
 app.post("/posts", async (req, res) => {
-  const { type, data } = req.body;
-  if (type === "CommentCreated") {
-    const status = content.includes("orange") ? "rejected" : "approved";
-
-    await axios.post("http://localhost:4005/events", {
-      type: "CommentModerated",
-      data: {
-        id,
-        content: data.content,
-        postId: data.postId,
-        status,
-      },
-    });
-  }
-
+  
   res.send({
     status: "OK",});
 });
 
 app.post("/events", async (req, res) => {
   console.log("Received Event", req.body.type);
+  const { type, data } = req.body;
+  if (type === "CommentCreated") {
+    const status = data.content.includes("orange") ? "rejected" : "approved";
+
+    await axios.post("http://localhost:4005/events", {
+      type: "CommentModerated",
+      data: {
+        id:data.id,
+        content: data.content,
+        postId: data.postId,
+        status,
+      },
+    });
+  }
   res.status(201).send({});
 });
 
