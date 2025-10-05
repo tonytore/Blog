@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {});
 
 app.post("/posts", async (req, res) => {
-  
   res.send({
-    status: "OK",});
+    status: "OK",
+  });
 });
 
 app.post("/events", async (req, res) => {
@@ -24,7 +24,7 @@ app.post("/events", async (req, res) => {
     await axios.post("http://localhost:4005/events", {
       type: "CommentModerated",
       data: {
-        id:data.id,
+        id: data.id,
         content: data.content,
         postId: data.postId,
         status,
